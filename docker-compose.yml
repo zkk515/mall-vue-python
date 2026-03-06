@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # 后端服务
+  mall-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mall-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MALL_DATA_PATH=/home/node/.openclaw/project/mall-vue-python/mall-data
+    restart: unless-stopped
+
+  # 前端服务
+  mall-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mall-frontend
+    ports:
+      - "8080:8080"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - mall-backend
+    restart: unless-stopped
+
+  # Git自动推送服务
+  git-auto-push:
+    image: python:3.11-slim
+    container_name: mall-git-push
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ../project/mall-vue-python/mall-data:/home/node/.openclaw/project/mall-vue-python/mall-data
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - REPO_DIR=/app
+    command: >
+      sh -c "pip install schedule -i https://pypi.tuna.tsinghua.edu.cn/simple && 
+             python git_auto_push.py"
+    restart: unless-stopped
+
+  # Issue监控服务
+  issue-monitor:
+    image: python:3.11-slim
+    container_name: mall-issue-monitor
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ../project/mall-vue-python/mall-data:/home/node/.openclaw/project/mall-vue-python/mall-data
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - REPO_NAME=zkk515/mall-vue-python
+      - CODE_DIR=/app
+    command: >
+      sh -c "pip install pygithub -i https://pypi.tuna.tsinghua.edu.cn/simple && 
+             python issue_monitor.py"
+    restart: unless-stopped
