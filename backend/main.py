@@ -10,6 +10,14 @@ def sanitize_input(text):
     if text is None:
         return text
     return html.escape(str(text))
+
+def success_resp(data=None, msg="success", code=200):
+    """统一成功响应格式"""
+    return {"code": code, "msg": msg, "data": data}
+
+def error_resp(msg="error", code=400, data=None):
+    """统一错误响应格式"""
+    return {"code": code, "msg": msg, "data": data}
 from typing import Optional, List
 import sqlite3
 import hashlib
@@ -282,7 +290,7 @@ def add_to_cart(item: CartItem, authorization: Optional[str] = Header(None)):
     
     conn.commit()
     conn.close()
-    return {"message": "Added to cart"}
+    return success_resp(msg="Added to cart")
 
 @app.post("/api/cart/update")
 def update_cart(item: CartItem, authorization: Optional[str] = Header(None)):
@@ -295,7 +303,7 @@ def update_cart(item: CartItem, authorization: Optional[str] = Header(None)):
         cursor.execute("UPDATE carts SET quantity = ? WHERE user_id = ? AND product_id = ?", (item.quantity, user_id, item.product_id))
     conn.commit()
     conn.close()
-    return {"message": "Cart updated"}
+    return success_resp(msg="Cart updated")
 
 @app.get("/api/cart/list", response_model=List[CartItemResponse])
 def list_cart(authorization: Optional[str] = Header(None)):
@@ -353,7 +361,7 @@ def create_order(order: OrderCreate, authorization: Optional[str] = Header(None)
     cursor.execute("DELETE FROM carts WHERE user_id = ?", (user_id,))
     conn.commit()
     conn.close()
-    return {"message": "Order created", "order_id": order_id}
+    return success_resp({"order_id": order_id}, "Order created")
 
 @app.get("/api/order/list", response_model=List[Order])
 def list_orders(authorization: Optional[str] = Header(None)):
@@ -402,7 +410,7 @@ def pay_order(order_id: int, authorization: Optional[str] = Header(None)):
     cursor.execute("UPDATE orders SET status = 'paid' WHERE id = ?", (order_id,))
     conn.commit()
     conn.close()
-    return {"message": "Payment successful", "order_id": order_id}
+    return success_resp({"order_id": order_id}, "Payment successful")
 
 @app.post("/api/order/{order_id}/cancel")
 def cancel_order(order_id: int, authorization: Optional[str] = Header(None)):
@@ -429,7 +437,7 @@ def cancel_order(order_id: int, authorization: Optional[str] = Header(None)):
     cursor.execute("UPDATE orders SET status = 'cancelled' WHERE id = ?", (order_id,))
     conn.commit()
     conn.close()
-    return {"message": "Order cancelled", "order_id": order_id}
+    return success_resp({"order_id": order_id}, "Order cancelled")
 
 # ============ 用户中心 ============
 
@@ -463,7 +471,7 @@ def update_profile(profile: UserProfile, authorization: Optional[str] = Header(N
                   (username, email, user_id))
     conn.commit()
     conn.close()
-    return {"message": "Profile updated"}
+    return success_resp(msg="Profile updated")
 
 @app.put("/api/user/password")
 def change_password(
@@ -484,7 +492,7 @@ def change_password(
     cursor.execute("UPDATE users SET password = ? WHERE id = ?", (hash_password(new_password), user_id))
     conn.commit()
     conn.close()
-    return {"message": "Password changed"}
+    return success_resp(msg="Password changed")
 
 # ============ 商品分类 ============
 
@@ -562,7 +570,7 @@ def add_review(product_id: int, review: ReviewCreate, authorization: Optional[st
     )
     conn.commit()
     conn.close()
-    return {"message": "Review added"}
+    return success_resp(msg="Review added")
 
 @app.get("/api/product/{product_id}/reviews", response_model=List[Review])
 def get_reviews(product_id: int):
