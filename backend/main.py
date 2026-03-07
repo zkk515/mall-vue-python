@@ -154,6 +154,18 @@ def get_current_user(authorization: Optional[str] = None) -> int:
         raise HTTPException(status_code=401, detail="Token expired")
     return tokens[token]["user_id"]
 
+def row_to_product(row) -> dict:
+    """将数据库行转换为商品字典"""
+    return {
+        "id": row["id"],
+        "name": row["name"],
+        "description": row["description"],
+        "price": row["price"],
+        "stock": row["stock"],
+        "image_url": row["image_url"],
+        "category_id": row.get("category_id")
+    }
+
 # ============ 用户接口 ============
 
 @app.post("/api/user/register", response_model=Token)

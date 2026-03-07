@@ -19,10 +19,13 @@ export default defineConfig({
     }
   },
   build: {
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ["vue", "vue-router", "axios", "element-plus"]
+          'vendor-vue': ['vue', 'vue-router'],
+          'vendor-ui': ['element-plus'],
+          'vendor-axios': ['axios']
         }
       }
     }
