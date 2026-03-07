@@ -188,24 +188,18 @@ def init_db():
         )
     ''')
     
-    conn.commit()
-    conn.close()
-    print(f"Database initialized at {DB_PATH}")
-
-    # 迁移：检查表是否存在（新增字段）
-    cursor.execute("PRAGMA table_info(browse_history)")
-    if not cursor.fetchall():
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS browse_history (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                product_id INTEGER NOT NULL,
-                viewed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES users(id),
-                FOREIGN KEY (product_id) REFERENCES products(id)
-            )
-        ''')
-
+    # 迁移：为products表添加sales_count字段（如果不存在）
+    try:
+        cursor.execute("ALTER TABLE products ADD COLUMN sales_count INTEGER DEFAULT 0")
+    except:
+        pass
+    
+    # 迁移：为users表添加avatar_url字段（如果不存在）
+    try:
+        cursor.execute("ALTER TABLE users ADD COLUMN avatar_url TEXT")
+    except:
+        pass
+    
     conn.commit()
     conn.close()
     print(f"Database initialized at {DB_PATH}")
