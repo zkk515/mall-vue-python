@@ -1,4 +1,13 @@
-  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 273
-    run_cmd(f'git commit -m "fix: 修复Issue #{issue_info[\"id\"]} - {bug_desc[:50]}"')
-                                                                                       ^
-SyntaxError: f-string expression part cannot include a backslash
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+============================================================
+🚀 Issue监控服务已启动
+📁 仓库: zkk515/mall-vue-python
+📂 代码目录: /home/node/.openclaw/workspace/mall-vue-python
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 320, in <module>
+    main()
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 297, in main
+    print(f"⏰ 每{Check_INTERVAL // 60}分钟检查一次")
+                ^^^^^^^^^^^^^^
+NameError: name 'Check_INTERVAL' is not defined. Did you mean: 'CHECK_INTERVAL'?

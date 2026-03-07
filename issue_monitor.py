@@ -294,7 +294,7 @@ def main():
     print("🚀 Issue监控服务已启动")
     print(f"📁 仓库: {REPO_NAME}")
     print(f"📂 代码目录: {CODE_DIR}")
-    print(f"⏰ 每{Check_INTERVAL // 60}分钟检查一次")
+    print(f"⏰ 每{CHECK_INTERVAL // 60}分钟检查一次")
     print("=" * 60)
     
     # 启动时检查限流状态
