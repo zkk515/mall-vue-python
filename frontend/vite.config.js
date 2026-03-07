@@ -17,5 +17,14 @@ export default defineConfig({
         changeOrigin: true
       }
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["vue", "vue-router", "axios", "element-plus"]
+        }
+      }
+    }
   }
 })
