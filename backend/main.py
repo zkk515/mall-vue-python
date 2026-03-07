@@ -284,8 +284,10 @@ def get_product(product_id: int):
     conn.close()
     if not row:
         raise HTTPException(status_code=404, detail="Product not found")
+    # 添加分享链接
+    share_url = f"/product/{row['id']}"
     return {"id": row["id"], "name": row["name"], "description": row["description"],
-            "price": row["price"], "stock": row["stock"], "image_url": row["image_url"]}
+            "price": row["price"], "stock": row["stock"], "image_url": row["image_url"], "share_url": share_url}
 
 # ============ 购物车接口 ============
 
