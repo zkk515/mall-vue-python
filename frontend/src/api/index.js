@@ -58,14 +58,14 @@ export const userAPI = {
 
 // 商品相关
 export const productAPI = {
-  list: (keyword = '') => api.get('/api/product/list', { params: { keyword } }),
+  list: (keyword = '', page = 1, pageSize = 20) => api.get('/api/product/list', { params: { keyword, page, page_size: pageSize } }),
   detail: (id) => api.get(`/api/product/detail/${id}`),
 }
 
 // 分类相关
 export const categoryAPI = {
   list: () => api.get('/api/category/list'),
-  products: (categoryId, keyword = '') => api.get(`/api/category/${categoryId}/products`, { params: { keyword } }),
+  products: (categoryId, keyword = '', page = 1, pageSize = 20) => api.get(`/api/category/${categoryId}/products`, { params: { keyword, page, page_size: pageSize } }),
 }
 
 // 评论相关

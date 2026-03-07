@@ -226,10 +226,25 @@ def login(user: UserLogin):
 
 # ============ 商品接口 ============
 
-@app.get("/api/product/list", response_model=List[Product])
-def list_products(keyword: str = "", category_id: int = None):
+@app.get("/api/product/list")
+def list_products(keyword: str = "", category_id: int = None, page: int = 1, page_size: int = 20):
     conn = get_db()
     cursor = conn.cursor()
+    
+    # 查询总数
+    count_sql = "SELECT COUNT(*) FROM products WHERE 1=1"
+    count_params = []
+    if keyword:
+        count_sql += " AND (name LIKE ? OR description LIKE ?)"
+        count_params.extend([f"%{keyword}%", f"%{keyword}%"])
+    if category_id:
+        count_sql += " AND category_id = ?"
+        count_params.append(category_id)
+    
+    cursor.execute(count_sql, count_params)
+    total = cursor.fetchone()[0]
+    
+    # 查询列表
     sql = "SELECT id, name, description, price, stock, image_url, category_id FROM products WHERE 1=1"
     params = []
     if keyword:
@@ -238,13 +253,17 @@ def list_products(keyword: str = "", category_id: int = None):
     if category_id:
         sql += " AND category_id = ?"
         params.append(category_id)
+    
+    sql += f" LIMIT {page_size} OFFSET {(page - 1) * page_size}"
+    
     cursor.execute(sql, params)
     rows = cursor.fetchall()
     conn.close()
-    LOW_STOCK_THRESHOLD = 10  # 库存预警阈值
-    return [{"id": r["id"], "name": r["name"], "description": r["description"], 
+    LOW_STOCK_THRESHOLD = 10
+    items = [{"id": r["id"], "name": r["name"], "description": r["description"], 
              "price": r["price"], "stock": r["stock"], "image_url": r["image_url"], 
              "category_id": r["category_id"], "low_stock": r["stock"] < LOW_STOCK_THRESHOLD} for r in rows]
+    return {"items": items, "total": total, "page": page, "page_size": page_size}
 
 @app.get("/api/product/search", response_model=List[Product])
 def search_products(q: str = Query(..., min_length=1, max_length=50, description="搜索关键词")):
@@ -555,23 +574,42 @@ def list_categories():
     return categories
 
 @app.get("/api/category/{category_id}/products")
-def get_products_by_category(category_id: int, keyword: str = ""):
+def get_products_by_category(category_id: int, keyword: str = "", page: int = 1, page_size: int = 20):
     """获取分类下的商品"""
     conn = get_db()
     cursor = conn.cursor()
+    
+    # 查询总数
+    count_sql = "SELECT COUNT(*) FROM products WHERE category_id = ?"
+    count_params = [category_id]
+    if keyword:
+        count_sql += " AND (name LIKE ? OR description LIKE ?)"
+        count_params.extend([f'%{keyword}%', f'%{keyword}%'])
+    
+    cursor.execute(count_sql, count_params)
+    total = cursor.fetchone()[0]
+    
+    # 查询列表
     if keyword:
         cursor.execute('''
-            SELECT id, name, description, price, stock, image_url 
+            SELECT id, name, description, price, stock, image_url, category_id
             FROM products WHERE category_id = ? AND (name LIKE ? OR description LIKE ?)
-        ''', (category_id, f'%{keyword}%', f'%{keyword}%'))
+            LIMIT ? OFFSET ?
+        ''', (category_id, f'%{keyword}%', f'%{keyword}%', page_size, (page - 1) * page_size))
     else:
         cursor.execute('''
-            SELECT id, name, description, price, stock, image_url 
+            SELECT id, name, description, price, stock, image_url, category_id
             FROM products WHERE category_id = ?
-        ''', (category_id,))
+            LIMIT ? OFFSET ?
+        ''', (category_id, page_size, (page - 1) * page_size))
+    
     products = cursor.fetchall()
     conn.close()
-    return products
+    
+    items = [{"id": p["id"], "name": p["name"], "description": p["description"],
+              "price": p["price"], "stock": p["stock"], "image_url": p["image_url"],
+              "category_id": p["category_id"]} for p in products]
+    return {"items": items, "total": total, "page": page, "page_size": page_size}
 
 # ============ 轮播图 ============
 

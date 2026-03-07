@@ -21,57 +21,71 @@
       </div>
     </div>
     
-    <!-- 分类侧边栏 -->
-    <div class="category-sidebar">
-      <div class="category-title">全部分类</div>
-      <div 
-        class="category-item" 
-        v-for="cat in categories" 
-        :key="cat.id"
-        :class="{ active: activeCategory === cat.id }"
-        @click="selectCategory(cat.id)"
-      >
-        <span class="cat-icon">📱</span>
-        {{ cat.name }}
-      </div>
-    </div>
-    
-    <!-- 商品列表 -->
-    <div class="products-main">
-      <h2 class="page-title">{{ pageTitle }}</h2>
-      
-      <!-- 搜索结果提示 -->
-      <div class="search-tips" v-if="keyword">
-        搜索"<span>{{ keyword }}</span>"，找到 {{ list.length }} 件商品
-      </div>
-      
-      <!-- 商品列表 -->
-      <div class="product-list">
-        <div class="product-item" v-for="item in list" :key="item.id" @click="$router.push(`/product/${item.id}`)">
-          <div class="product-img">
-            <img :src="item.image_url" :alt="item.name" />
-          </div>
-          <div class="product-info">
-            <div class="product-name">{{ item.name }}</div>
-            <div class="product-desc">{{ item.description }}</div>
-            <div class="product-price">
-              <span class="price-symbol">¥</span>
-              <span class="price-value">{{ item.price }}</span>
-            </div>
-            <div class="product-actions">
-              <button class="btn-cart">加入购物车</button>
-            </div>
-            <div class="product-meta">
-              <span>{{ item.stock }}人评价</span>
-            </div>
-          </div>
+    <!-- 主体内容：左侧分类 + 右侧商品 -->
+    <div class="content-wrapper">
+      <!-- 左侧分类 -->
+      <div class="category-sidebar">
+        <div class="category-title">全部分类</div>
+        <div 
+          class="category-item" 
+          v-for="cat in categories" 
+          :key="cat.id"
+          :class="{ active: activeCategory === cat.id }"
+          @click="selectCategory(cat.id)"
+        >
+          <span class="cat-icon">📱</span>
+          {{ cat.name }}
         </div>
       </div>
       
-      <!-- 空状态 -->
-      <div class="empty" v-if="!loading && list.length === 0">
-        <img src="https://img12.360buyimg.com/vclist/jfs/t1/120989/20/14942/158/5e7a8f2aEbf730d76/91c2e937d2b24e31.png" />
-        <p>暂无商品</p>
+      <!-- 右侧商品列表 -->
+      <div class="products-main">
+        <h2 class="page-title">{{ pageTitle }}</h2>
+        
+        <!-- 搜索结果提示 -->
+        <div class="search-tips" v-if="keyword">
+          搜索"<span>{{ keyword }}</span>"，找到 {{ total }} 件商品
+        </div>
+        
+        <!-- 商品列表 -->
+        <div class="product-list">
+          <div class="product-item" v-for="item in list" :key="item.id" @click="$router.push(`/product/${item.id}`)">
+            <div class="product-img">
+              <img :src="item.image_url" :alt="item.name" />
+            </div>
+            <div class="product-info">
+              <div class="product-name">{{ item.name }}</div>
+              <div class="product-desc">{{ item.description }}</div>
+              <div class="product-price">
+                <span class="price-symbol">¥</span>
+                <span class="price-value">{{ item.price }}</span>
+              </div>
+              <div class="product-actions">
+                <button class="btn-cart">加入购物车</button>
+              </div>
+              <div class="product-meta">
+                <span>{{ item.stock }}人评价</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 分页 -->
+        <div class="pagination" v-if="total > pageSize">
+          <el-pagination
+            v-model:current-page="currentPage"
+            :page-size="pageSize"
+            :total="total"
+            layout="prev, pager, next, total"
+            @current-change="handlePageChange"
+          />
+        </div>
+        
+        <!-- 空状态 -->
+        <div class="empty" v-if="!loading && list.length === 0">
+          <img src="https://img12.360buyimg.com/vclist/jfs/t1/120989/20/14942/158/5e7a8f2aEbf730d76/91c2e937d2b24e31.png" />
+          <p>暂无商品</p>
+        </div>
       </div>
     </div>
   </div>
@@ -89,6 +103,9 @@ const categories = ref([])
 const keyword = ref('')
 const activeCategory = ref(0)
 const currentSlide = ref(0)
+const currentPage = ref(1)
+const pageSize = ref(20)
+const total = ref(0)
 let carouselTimer = null
 
 const banners = [
@@ -119,18 +136,29 @@ const loadProducts = async () => {
   loading.value = true
   try {
     if (activeCategory.value) {
-      list.value = await categoryAPI.products(activeCategory.value, keyword.value)
+      const res = await categoryAPI.products(activeCategory.value, keyword.value, currentPage.value, pageSize.value)
+      list.value = res.items || res.products || res || []
+      total.value = res.total || list.value.length
     } else {
-      list.value = await productAPI.list(keyword.value)
+      const res = await productAPI.list(keyword.value, currentPage.value, pageSize.value)
+      list.value = res.items || res.products || res || []
+      total.value = res.total || list.value.length
     }
   } finally {
     loading.value = false
   }
 }
 
+const handlePageChange = (page) => {
+  currentPage.value = page
+  loadProducts()
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 const selectCategory = (id) => {
   activeCategory.value = activeCategory.value === id ? 0 : id
   keyword.value = ''
+  currentPage.value = 1
   loadProducts()
 }
 
@@ -143,6 +171,7 @@ onMounted(() => {
 watch(() => route.query.keyword, (newKw) => {
   keyword.value = newKw || ''
   activeCategory.value = 0
+  currentPage.value = 1
   loadProducts()
 })
 
@@ -220,15 +249,14 @@ onUnmounted(() => {
 }
 .carousel-dots span.active { background: #fff; }
 
-/* 主内容区 */
-.products-main { 
-  display: flex; 
-  gap: 0; 
-  min-height: 500px; 
-  background: var(--card-bg, #fff); 
-  padding: var(--spacing-md, 16px); 
+/* 主体内容：左侧分类 + 右侧商品 */
+.content-wrapper {
+  display: flex;
+  gap: 0;
+  background: var(--card-bg, #fff);
   border-radius: var(--radius, 8px);
   box-shadow: var(--shadow, 0 2px 8px rgba(0,0,0,0.08));
+  overflow: hidden;
 }
 
 /* 分类侧边栏 */
@@ -237,7 +265,6 @@ onUnmounted(() => {
   background: #F7F7F7;
   padding: 0;
   flex-shrink: 0;
-  border-radius: var(--radius, 8px) 0 0 var(--radius, 8px);
 }
 .category-title {
   background: var(--primary, #E4393C);
@@ -245,7 +272,6 @@ onUnmounted(() => {
   padding: 12px 16px;
   font-size: 14px;
   font-weight: bold;
-  border-radius: var(--radius, 8px) var(--radius, 8px) 0 0;
 }
 .category-item {
   padding: 12px 16px;
@@ -365,4 +391,12 @@ onUnmounted(() => {
 .empty { text-align: center; padding: 50px; }
 .empty img { width: 200px; }
 .empty p { color: var(--text-secondary, #999); margin-top: 10px; }
+
+/* 分页 */
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-lg, 24px) 0;
+  margin-top: var(--spacing-md, 16px);
+}
 </style>
