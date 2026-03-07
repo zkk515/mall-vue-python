@@ -166,5 +166,35 @@ def init_db():
     conn.close()
     print(f"Database initialized at {DB_PATH}")
 
+    # 商品浏览历史表
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS browse_history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            product_id INTEGER NOT NULL,
+            viewed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (product_id) REFERENCES products(id)
+        )
+    ''')
+    
+    # 迁移：检查表是否存在（新增字段）
+    cursor.execute("PRAGMA table_info(browse_history)")
+    if not cursor.fetchall():
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS browse_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                product_id INTEGER NOT NULL,
+                viewed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id),
+                FOREIGN KEY (product_id) REFERENCES products(id)
+            )
+        ''')
+    
+    conn.commit()
+    conn.close()
+    print(f"Database initialized at {DB_PATH}")
+
 if __name__ == "__main__":
     init_db()

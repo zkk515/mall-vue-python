@@ -276,14 +276,26 @@ def get_product_ranking(limit: int = Query(10, ge=1, le=50)):
              "image_url": r["image_url"]} for r in rows]
 
 @app.get("/api/product/detail/{product_id}", response_model=Product)
-def get_product(product_id: int):
+def get_product(product_id: int, authorization: Optional[str] = Header(None)):
     conn = get_db()
     cursor = conn.cursor()
     cursor.execute("SELECT id, name, description, price, stock, image_url FROM products WHERE id = ?", (product_id,))
     row = cursor.fetchone()
-    conn.close()
     if not row:
+        conn.close()
         raise HTTPException(status_code=404, detail="Product not found")
+    
+    # 自动记录浏览历史
+    try:
+        user_id = get_current_user(authorization) if authorization else None
+        if user_id:
+            cursor.execute("DELETE FROM browse_history WHERE user_id = ? AND product_id = ?", (user_id, product_id))
+            cursor.execute("INSERT INTO browse_history (user_id, product_id) VALUES (?, ?)", (user_id, product_id))
+            conn.commit()
+    except:
+        pass  # 未登录不记录
+    
+    conn.close()
     # 添加分享链接
     share_url = f"/product/{row['id']}"
     return {"id": row["id"], "name": row["name"], "description": row["description"],
@@ -564,6 +576,40 @@ def get_carousel():
         {"id": 3, "image": "https://picsum.photos/800/350?random=103", "link": "/product/3", "title": "智能穿戴"},
         {"id": 4, "image": "https://picsum.photos/800/350?random=104", "link": "/product/5", "title": "音频狂欢"},
     ]
+
+# ============ 浏览历史接口 ============
+
+@app.get("/api/history")
+def get_browse_history(authorization: Optional[str] = Header(None)):
+    """获取用户浏览历史"""
+    user_id = get_current_user(authorization)
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT h.id, h.product_id, h.viewed_at, p.name, p.price, p.image_url
+        FROM browse_history h
+        JOIN products p ON h.product_id = p.id
+        WHERE h.user_id = ?
+        ORDER BY h.viewed_at DESC
+        LIMIT 50
+    ''', (user_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    return [{"id": r["id"], "product_id": r["product_id"], "name": r["name"], 
+             "price": r["price"], "image_url": r["image_url"], "viewed_at": r["viewed_at"]} for r in rows]
+
+@app.post("/api/history/{product_id}")
+def add_browse_history(product_id: int, authorization: Optional[str] = Header(None)):
+    """记录商品浏览历史"""
+    user_id = get_current_user(authorization)
+    conn = get_db()
+    cursor = conn.cursor()
+    # 删除同商品旧记录，保留最新
+    cursor.execute("DELETE FROM browse_history WHERE user_id = ? AND product_id = ?", (user_id, product_id))
+    cursor.execute("INSERT INTO browse_history (user_id, product_id) VALUES (?, ?)", (user_id, product_id))
+    conn.commit()
+    conn.close()
+    return success_resp(msg="History recorded")
 
 # ============ 评论接口 ============
 
