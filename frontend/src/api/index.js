@@ -17,15 +17,33 @@ api.interceptors.request.use(config => {
   return config
 })
 
-// 响应拦截器
+// 响应拦截器 - 统一错误处理
 api.interceptors.response.use(
   response => response.data,
   error => {
     const status = error.response?.status
+    const data = error.response?.data
+    
+    let msg = '请求失败，请稍后重试'
     if (status === 401) {
       localStorage.removeItem('token')
+      msg = '登录已过期，请重新登录'
+    } else if (status === 403) {
+      msg = '没有权限执行此操作'
+    } else if (status === 404) {
+      msg = '请求的资源不存在'
+    } else if (status === 500) {
+      msg = '服务器错误，请稍后重试'
+    } else if (data?.msg) {
+      msg = data.msg
     }
-    return Promise.reject(error)
+    
+    // 可以用 Element Plus 的 ElMessage 显示
+    if (typeof window !== 'undefined' && window.ElMessage) {
+      window.ElMessage.error(msg)
+    }
+    
+    return Promise.reject(new Error(msg))
   }
 )
 
