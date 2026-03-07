@@ -611,6 +611,52 @@ def add_browse_history(product_id: int, authorization: Optional[str] = Header(No
     conn.close()
     return success_resp(msg="History recorded")
 
+# ============ 收藏接口 ============
+
+@app.get("/api/favorites")
+def get_favorites(authorization: Optional[str] = Header(None)):
+    """获取用户收藏列表"""
+    user_id = get_current_user(authorization)
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT f.id, f.product_id, f.created_at, p.name, p.price, p.image_url
+        FROM favorites f
+        JOIN products p ON f.product_id = p.id
+        WHERE f.user_id = ?
+        ORDER BY f.created_at DESC
+    ''', (user_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    return [{"id": r["id"], "product_id": r["product_id"], "name": r["name"], 
+             "price": r["price"], "image_url": r["image_url"]} for r in rows]
+
+@app.post("/api/favorites/{product_id}")
+def add_favorite(product_id: int, authorization: Optional[str] = Header(None)):
+    """添加商品收藏"""
+    user_id = get_current_user(authorization)
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("INSERT INTO favorites (user_id, product_id) VALUES (?, ?)", (user_id, product_id))
+        conn.commit()
+        msg = "Added to favorites"
+    except sqlite3.IntegrityError:
+        msg = "Already in favorites"
+    conn.close()
+    return success_resp(msg=msg)
+
+@app.delete("/api/favorites/{product_id}")
+def remove_favorite(product_id: int, authorization: Optional[str] = Header(None)):
+    """取消商品收藏"""
+    user_id = get_current_user(authorization)
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM favorites WHERE user_id = ? AND product_id = ?", (user_id, product_id))
+    conn.commit()
+    conn.close()
+    return success_resp(msg="Removed from favorites")
+
 # ============ 评论接口 ============
 
 @app.post("/api/product/{product_id}/review")

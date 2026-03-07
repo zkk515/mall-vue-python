@@ -22,16 +22,16 @@ DB_PATH = os.path.join(DB_DIR, 'mall.db')
 def init_db():
     """初始化数据库和表结构"""
     os.makedirs(DB_DIR, exist_ok=True)
-    
+
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    
+
     # 迁移：为products表添加sales_count字段（如果不存在）
     try:
         cursor.execute("ALTER TABLE products ADD COLUMN sales_count INTEGER DEFAULT 0")
     except:
         pass  # 字段已存在
-    
+
     # 用户表
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
@@ -42,7 +42,7 @@ def init_db():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
-    
+
     # 商品表
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS products (
@@ -56,7 +56,7 @@ def init_db():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
-    
+
     # 购物车表
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS carts (
@@ -68,7 +68,7 @@ def init_db():
             FOREIGN KEY (product_id) REFERENCES products(id)
         )
     ''')
-    
+
     # 订单表
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS orders (
@@ -83,7 +83,7 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users(id)
         )
     ''')
-    
+
     # 订单详情表
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS order_items (
@@ -97,7 +97,7 @@ def init_db():
             FOREIGN KEY (product_id) REFERENCES products(id)
         )
     ''')
-    
+
     # 分类表
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS categories (
@@ -106,7 +106,7 @@ def init_db():
             image TEXT
         )
     ''')
-    
+
     # 评论表
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS reviews (
@@ -120,13 +120,13 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users(id)
         )
     ''')
-    
+
     # 商品表添加分类ID
     cursor.execute("PRAGMA table_info(products)")
     columns = [col[1] for col in cursor.fetchall()]
     if 'category_id' not in columns:
         cursor.execute("ALTER TABLE products ADD COLUMN category_id INTEGER REFERENCES categories(id)")
-    
+
     # 插入示例分类
     cursor.execute('SELECT COUNT(*) FROM categories')
     if cursor.fetchone()[0] == 0:
@@ -141,7 +141,7 @@ def init_db():
             'INSERT INTO categories (name, image) VALUES (?, ?)',
             sample_categories
         )
-    
+
     # 插入示例商品
     cursor.execute('SELECT COUNT(*) FROM products')
     if cursor.fetchone()[0] == 0:
@@ -161,7 +161,7 @@ def init_db():
             'INSERT INTO products (name, description, price, stock, image_url, category_id) VALUES (?, ?, ?, ?, ?, ?)',
             sample_products
         )
-    
+
     conn.commit()
     conn.close()
     print(f"Database initialized at {DB_PATH}")
@@ -177,7 +177,20 @@ def init_db():
             FOREIGN KEY (product_id) REFERENCES products(id)
         )
     ''')
-    
+
+    # 商品收藏表
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS favorites (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            product_id INTEGER NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (product_id) REFERENCES products(id),
+            UNIQUE(user_id, product_id)
+        )
+    ''')
+
     # 迁移：检查表是否存在（新增字段）
     cursor.execute("PRAGMA table_info(browse_history)")
     if not cursor.fetchall():
@@ -191,7 +204,7 @@ def init_db():
                 FOREIGN KEY (product_id) REFERENCES products(id)
             )
         ''')
-    
+
     conn.commit()
     conn.close()
     print(f"Database initialized at {DB_PATH}")
