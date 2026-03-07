@@ -1,0 +1,80 @@
+/* ========== UI设计规范全局变量 ==========
+ * 主色: #E4393C (京东红)
+ * 背景: #F5F5F5
+ * 间距: 4/8/16/24/32px
+ * 圆角: 8px
+ * 阴影: 0 2px 8px rgba(0,0,0,0.08)
+ */
+
+:root {
+  /* 主色调 */
+  --primary: #E4393C;
+  --primary-hover: #C93538;
+  --primary-light: #FFE4D6;
+  
+  /* 功能色 */
+  --orange: #FF6B00;
+  --blue: #0066FF;
+  --success: #52C41A;
+  --warning: #FAAD14;
+  --error: #F5222D;
+  --info: #1890FF;
+  
+  /* 中性色 */
+  --bg: #F5F5F5;
+  --card-bg: #FFFFFF;
+  --border: #E0E0E0;
+  --text-secondary: #999999;
+  --text-primary: #333333;
+  --text-disabled: #CCCCCC;
+  
+  /* 间距系统 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* 圆角 */
+  --radius: 8px;
+  --radius-sm: 4px;
+  --radius-lg: 12px;
+  
+  /* 阴影 */
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.12);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.15);
+  
+  /* 过渡 */
+  --transition: all 0.3s ease;
+}
+
+/* 通用工具类 */
+.text-primary { color: var(--primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-error { color: var(--error); }
+
+.bg-primary { background-color: var(--primary); }
+.bg-card { background-color: var(--card-bg); }
+.bg-body { background-color: var(--bg); }
+
+.rounded { border-radius: var(--radius); }
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-lg { border-radius: var(--radius-lg); }
+
+.shadow { box-shadow: var(--shadow); }
+.shadow-hover:hover { box-shadow: var(--shadow-hover); }
+
+/* 间距工具类 */
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
