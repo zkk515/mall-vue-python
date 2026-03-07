@@ -77,7 +77,7 @@ class Product(BaseModel):
 
 class CartItem(BaseModel):
     product_id: int = Field(..., gt=0, description="商品ID")
-    quantity: int = Field(..., ge=1, le=999, description="数量")
+    quantity: int = Field(..., ge=0, le=999, description="数量(0表示删除)")
 
 class CartItemResponse(BaseModel):
     id: int
