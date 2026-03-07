@@ -13,3 +13,38 @@
 📋 发现 1 个Bug Issue
 🔧 开始修复Issue #49: None
 ℹ️ Issue #49 已经是关闭状态
+
+[2026-03-07 20:15:34] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+📋 发现 1 个Bug Issue
+🔧 开始修复Issue #49: None
+se auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
