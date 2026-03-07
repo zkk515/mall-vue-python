@@ -261,16 +261,16 @@ def fix_bug(issue_info):
         print("  → 检测到后端测试失败")
         fix_test_issue(CODE_DIR)
     
-    if "库存" in bug_desc or "库存" in bug_title:
+    if bug_desc and ("库存" in bug_desc or "库存" in bug_title):
         print("  → 检测到库存相关问题")
     
-    if "登录" in bug_desc or "登录" in bug_title:
+    if bug_desc and ("登录" in bug_desc or "登录" in bug_title):
         print("  → 检测到登录相关问题")
     
     # 提交并推送
     commit_hash = get_latest_commit_hash_git()
     run_cmd("git add -A")
-    commit_msg = f'fix: #{issue_info["id"]} - {bug_desc[:50]}'
+    commit_msg = f'fix: #{issue_info["id"]} - {bug_desc[:50] if bug_desc else "修复"}'
     run_cmd(f'git commit -m "{commit_msg}"')
     run_cmd("git push origin main")
     
