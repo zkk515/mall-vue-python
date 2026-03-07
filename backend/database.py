@@ -26,6 +26,12 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
+    # 迁移：为products表添加sales_count字段（如果不存在）
+    try:
+        cursor.execute("ALTER TABLE products ADD COLUMN sales_count INTEGER DEFAULT 0")
+    except:
+        pass  # 字段已存在
+    
     # 用户表
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
@@ -45,6 +51,7 @@ def init_db():
             description TEXT,
             price REAL NOT NULL,
             stock INTEGER DEFAULT 0,
+            sales_count INTEGER DEFAULT 0,
             image_url TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )

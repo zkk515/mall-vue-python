@@ -260,6 +260,21 @@ def search_products(q: str = Query(..., min_length=1, max_length=50, description
     return [{"id": r["id"], "name": r["name"], "description": r["description"], 
              "price": r["price"], "stock": r["stock"], "image_url": r["image_url"]} for r in rows]
 
+@app.get("/api/product/ranking")
+def get_product_ranking(limit: int = Query(10, ge=1, le=50)):
+    """商品销量排行榜"""
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT id, name, description, price, stock, sales_count, image_url FROM products WHERE sales_count > 0 ORDER BY sales_count DESC LIMIT ?",
+        (limit,)
+    )
+    rows = cursor.fetchall()
+    conn.close()
+    return [{"id": r["id"], "name": r["name"], "description": r["description"], 
+             "price": r["price"], "stock": r["stock"], "sales_count": r["sales_count"], 
+             "image_url": r["image_url"]} for r in rows]
+
 @app.get("/api/product/detail/{product_id}", response_model=Product)
 def get_product(product_id: int):
     conn = get_db()
@@ -365,7 +380,9 @@ def create_order(order: OrderCreate, authorization: Optional[str] = Header(None)
             "INSERT INTO order_items (order_id, product_id, product_name, price, quantity) VALUES (?, ?, ?, ?, ?)",
             (order_id, item["product_id"], item["name"], item["price"], item["quantity"])
         )
-        cursor.execute("UPDATE products SET stock = stock - ? WHERE id = ?", (item["quantity"], item["product_id"]))
+        # 扣减库存，增加销量
+        cursor.execute("UPDATE products SET stock = stock - ?, sales_count = sales_count + ? WHERE id = ?", 
+                     (item["quantity"], item["quantity"], item["product_id"]))
     
     cursor.execute("DELETE FROM carts WHERE user_id = ?", (user_id,))
     conn.commit()
