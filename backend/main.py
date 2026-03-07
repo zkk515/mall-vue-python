@@ -73,6 +73,7 @@ class Product(BaseModel):
     price: float
     stock: int
     image_url: Optional[str]
+    category_id: Optional[int] = None
 
 class CartItem(BaseModel):
     product_id: int = Field(..., gt=0, description="商品ID")
@@ -188,20 +189,23 @@ def login(user: UserLogin):
 # ============ 商品接口 ============
 
 @app.get("/api/product/list", response_model=List[Product])
-def list_products(keyword: str = ""):
+def list_products(keyword: str = "", category_id: int = None):
     conn = get_db()
     cursor = conn.cursor()
+    sql = "SELECT id, name, description, price, stock, image_url, category_id FROM products WHERE 1=1"
+    params = []
     if keyword:
-        cursor.execute(
-            "SELECT id, name, description, price, stock, image_url FROM products WHERE name LIKE ? OR description LIKE ?",
-            (f"%{keyword}%", f"%{keyword}%")
-        )
-    else:
-        cursor.execute("SELECT id, name, description, price, stock, image_url FROM products")
+        sql += " AND (name LIKE ? OR description LIKE ?)"
+        params.extend([f"%{keyword}%", f"%{keyword}%"])
+    if category_id:
+        sql += " AND category_id = ?"
+        params.append(category_id)
+    cursor.execute(sql, params)
     rows = cursor.fetchall()
     conn.close()
     return [{"id": r["id"], "name": r["name"], "description": r["description"], 
-             "price": r["price"], "stock": r["stock"], "image_url": r["image_url"]} for r in rows]
+             "price": r["price"], "stock": r["stock"], "image_url": r["image_url"], 
+             "category_id": r["category_id"]} for r in rows]
 
 @app.get("/api/product/search", response_model=List[Product])
 def search_products(q: str = Query(..., min_length=1, max_length=50, description="搜索关键词")):
