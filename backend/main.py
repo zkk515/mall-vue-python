@@ -241,9 +241,10 @@ def list_products(keyword: str = "", category_id: int = None):
     cursor.execute(sql, params)
     rows = cursor.fetchall()
     conn.close()
+    LOW_STOCK_THRESHOLD = 10  # 库存预警阈值
     return [{"id": r["id"], "name": r["name"], "description": r["description"], 
              "price": r["price"], "stock": r["stock"], "image_url": r["image_url"], 
-             "category_id": r["category_id"]} for r in rows]
+             "category_id": r["category_id"], "low_stock": r["stock"] < LOW_STOCK_THRESHOLD} for r in rows]
 
 @app.get("/api/product/search", response_model=List[Product])
 def search_products(q: str = Query(..., min_length=1, max_length=50, description="搜索关键词")):
