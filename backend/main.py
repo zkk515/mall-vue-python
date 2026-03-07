@@ -248,7 +248,7 @@ def list_products(keyword: str = "", category_id: int = None):
 
 @app.get("/api/product/search", response_model=List[Product])
 def search_products(q: str = Query(..., min_length=1, max_length=50, description="搜索关键词")):
-    """商品搜索接口"""
+    """商品搜索接口 - 支持高亮"""
     conn = get_db()
     cursor = conn.cursor()
     cursor.execute(
@@ -257,7 +257,9 @@ def search_products(q: str = Query(..., min_length=1, max_length=50, description
     )
     rows = cursor.fetchall()
     conn.close()
-    return [{"id": r["id"], "name": r["name"], "description": r["description"], 
+    # 返回高亮结果
+    highlight = lambda text: text.replace(q, f"<mark>{q}</mark>")
+    return [{"id": r["id"], "name": highlight(r["name"]), "description": highlight(r["description"]), 
              "price": r["price"], "stock": r["stock"], "image_url": r["image_url"]} for r in rows]
 
 @app.get("/api/product/ranking")
