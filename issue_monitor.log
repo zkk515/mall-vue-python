@@ -4,10 +4,19 @@
 🚀 Issue监控服务已启动
 📁 仓库: zkk515/mall-vue-python
 📂 代码目录: /home/node/.openclaw/workspace/mall-vue-python
+⏰ 每10分钟检查一次
+============================================================
+📊 API限流状态: 剩余 4970/5000, 重置于 Sat Mar  7 20:10:25 2026
+
+[2026-03-07 20:05:51] 🔍 检查Issue...
+📋 发现 1 个Bug Issue
+🔧 开始修复Issue #49: None
 Traceback (most recent call last):
   File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 320, in <module>
     main()
-  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 297, in main
-    print(f"⏰ 每{Check_INTERVAL // 60}分钟检查一次")
-                ^^^^^^^^^^^^^^
-NameError: name 'Check_INTERVAL' is not defined. Did you mean: 'CHECK_INTERVAL'?
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 315, in main
+    fix_bug(issue_info)
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 264, in fix_bug
+    if "库存" in bug_desc or "库存" in bug_title:
+       ^^^^^^^^^^^^^^^^
+TypeError: argument of type 'NoneType' is not iterable

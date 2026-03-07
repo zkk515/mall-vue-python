@@ -163,10 +163,6 @@ def init_db():
             sample_products
         )
 
-    conn.commit()
-    conn.close()
-    print(f"Database initialized at {DB_PATH}")
-
     # 商品浏览历史表
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS browse_history (
@@ -191,6 +187,10 @@ def init_db():
             UNIQUE(user_id, product_id)
         )
     ''')
+    
+    conn.commit()
+    conn.close()
+    print(f"Database initialized at {DB_PATH}")
 
     # 迁移：检查表是否存在（新增字段）
     cursor.execute("PRAGMA table_info(browse_history)")
