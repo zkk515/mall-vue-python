@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends, Header, Body
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+import re
 from typing import Optional, List
 import sqlite3
 import hashlib
@@ -45,13 +46,13 @@ tokens = load_tokens()
 # ============ 数据模型 ============
 
 class UserRegister(BaseModel):
-    username: str
-    password: str
-    email: Optional[str] = None
+    username: str = Field(..., min_length=3, max_length=20, description="用户名")
+    password: str = Field(..., min_length=6, max_length=50, description="密码")
+    email: Optional[str] = Field(None, description="邮箱")
 
 class UserLogin(BaseModel):
-    username: str
-    password: str
+    username: str = Field(..., min_length=1, description="用户名")
+    password: str = Field(..., min_length=1, description="密码")
 
 class Token(BaseModel):
     access_token: str
@@ -66,8 +67,8 @@ class Product(BaseModel):
     image_url: Optional[str]
 
 class CartItem(BaseModel):
-    product_id: int
-    quantity: int
+    product_id: int = Field(..., gt=0, description="商品ID")
+    quantity: int = Field(..., ge=1, le=999, description="数量")
 
 class CartItemResponse(BaseModel):
     id: int
@@ -79,9 +80,9 @@ class CartItemResponse(BaseModel):
     checked: bool = False
 
 class OrderCreate(BaseModel):
-    receiver_name: str
-    receiver_phone: str
-    receiver_address: str
+    receiver_name: str = Field(..., min_length=2, max_length=50, description="收货人姓名")
+    receiver_phone: str = Field(..., min_length=7, max_length=20, description="联系电话")
+    receiver_address: str = Field(..., min_length=5, max_length=200, description="收货地址")
 
 class OrderItem(BaseModel):
     id: int
@@ -110,9 +111,9 @@ class Review(BaseModel):
     created_at: str
 
 class ReviewCreate(BaseModel):
-    product_id: int
-    rating: int
-    comment: Optional[str] = None
+    product_id: int = Field(..., gt=0, description="商品ID")
+    rating: int = Field(..., ge=1, le=5, description="评分1-5")
+    comment: Optional[str] = Field(None, max_length=500, description="评论")
 
 # ============ 辅助函数 ============
 
