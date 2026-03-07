@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends, Header, Body
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 from pydantic import BaseModel, Field
 import re
 from typing import Optional, List
@@ -12,7 +13,14 @@ import secrets
 
 from database import init_db, DB_PATH
 
-app = FastAPI(title="Mall API", version="1.0.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    init_db()
+    yield
+    # Shutdown (future use)
+
+app = FastAPI(title="Mall API", version="1.0.0", lifespan=lifespan)
 
 # CORS配置
 app.add_middleware(
@@ -552,10 +560,7 @@ def get_review_count(product_id: int):
     }
 
 # ============ 启动 ============
-
-@app.on_event("startup")
-def startup():
-    init_db()
+# 已移至 lifespan 管理
 
 if __name__ == "__main__":
     import uvicorn
