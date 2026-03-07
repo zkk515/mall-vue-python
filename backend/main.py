@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends, Header, Body
+from fastapi import FastAPI, HTTPException, Depends, Header, Body, Query
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from pydantic import BaseModel, Field
@@ -198,6 +198,20 @@ def list_products(keyword: str = ""):
         )
     else:
         cursor.execute("SELECT id, name, description, price, stock, image_url FROM products")
+    rows = cursor.fetchall()
+    conn.close()
+    return [{"id": r["id"], "name": r["name"], "description": r["description"], 
+             "price": r["price"], "stock": r["stock"], "image_url": r["image_url"]} for r in rows]
+
+@app.get("/api/product/search", response_model=List[Product])
+def search_products(q: str = Query(..., min_length=1, max_length=50, description="搜索关键词")):
+    """商品搜索接口"""
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT id, name, description, price, stock, image_url FROM products WHERE name LIKE ? OR description LIKE ? ORDER BY name",
+        (f"%{q}%", f"%{q}%")
+    )
     rows = cursor.fetchall()
     conn.close()
     return [{"id": r["id"], "name": r["name"], "description": r["description"], 
