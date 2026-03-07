@@ -37,6 +37,14 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Mall API", version="1.0.0", lifespan=lifespan)
 
+# 全局异常处理器
+@app.exception_handler(Exception)
+async def global_exception_handler(request, exc):
+    import traceback
+    print(f"[ERROR] {exc}")
+    traceback.print_exc()
+    return error_resp(msg=str(exc)[:100], code=500)
+
 # CORS配置
 app.add_middleware(
     CORSMiddleware,
