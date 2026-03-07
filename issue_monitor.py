@@ -21,7 +21,7 @@ from github import Github
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
 REPO_NAME = os.getenv("REPO_NAME", "zkk515/mall-vue-python")
 CODE_DIR = os.getenv("CODE_DIR", "/home/node/.openclaw/workspace/mall-vue-python")
-CHECK_INTERVAL = 600  # 10分钟（按用户要求）
+CHECK_INTERVAL = 420  # 7分钟
 
 # 缓存配置
 CACHE_FILE = "github_cache.json"
