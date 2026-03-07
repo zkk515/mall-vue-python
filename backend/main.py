@@ -100,6 +100,20 @@ class Order(BaseModel):
     created_at: str
     items: List[OrderItem] = []
 
+class Review(BaseModel):
+    id: int
+    product_id: int
+    user_id: int
+    username: str
+    rating: int
+    comment: Optional[str]
+    created_at: str
+
+class ReviewCreate(BaseModel):
+    product_id: int
+    rating: int
+    comment: Optional[str] = None
+
 # ============ 辅助函数 ============
 
 def get_db():
@@ -462,6 +476,79 @@ def get_carousel():
         {"id": 3, "image": "https://picsum.photos/800/350?random=103", "link": "/product/3", "title": "智能穿戴"},
         {"id": 4, "image": "https://picsum.photos/800/350?random=104", "link": "/product/5", "title": "音频狂欢"},
     ]
+
+# ============ 评论接口 ============
+
+@app.post("/api/product/{product_id}/review")
+def add_review(product_id: int, review: ReviewCreate, authorization: Optional[str] = Header(None)):
+    """添加评论（需已购买）"""
+    user_id = get_current_user(authorization)
+    conn = get_db()
+    cursor = conn.cursor()
+    
+    # 检查商品是否存在
+    cursor.execute("SELECT id FROM products WHERE id = ?", (product_id,))
+    if not cursor.fetchone():
+        conn.close()
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    # 检查用户是否已购买该商品
+    cursor.execute('''
+        SELECT COUNT(*) FROM orders o 
+        JOIN order_items oi ON o.id = oi.order_id 
+        WHERE o.user_id = ? AND oi.product_id = ? AND o.status = 'paid'
+    ''', (user_id, product_id))
+    if cursor.fetchone()[0] == 0:
+        conn.close()
+        raise HTTPException(status_code=403, detail="You can only review after purchasing this product")
+    
+    # 添加评论
+    cursor.execute(
+        "INSERT INTO reviews (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)",
+        (product_id, user_id, review.rating, review.comment)
+    )
+    conn.commit()
+    conn.close()
+    return {"message": "Review added"}
+
+@app.get("/api/product/{product_id}/reviews", response_model=List[Review])
+def get_reviews(product_id: int):
+    """获取商品评论列表"""
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT r.id, r.product_id, r.user_id, u.username, r.rating, r.comment, r.created_at
+        FROM reviews r JOIN users u ON r.user_id = u.id
+        WHERE r.product_id = ?
+        ORDER BY r.created_at DESC
+    ''', (product_id,))
+    rows = cursor.fetchall()
+    conn.close()
+    return [{
+        "id": r["id"],
+        "product_id": r["product_id"],
+        "user_id": r["user_id"],
+        "username": r["username"],
+        "rating": r["rating"],
+        "comment": r["comment"],
+        "created_at": r["created_at"]
+    } for r in rows]
+
+@app.get("/api/product/{product_id}/reviews/count")
+def get_review_count(product_id: int):
+    """获取商品评论统计"""
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT COUNT(*) as total, AVG(rating) as avg_rating
+        FROM reviews WHERE product_id = ?
+    ''', (product_id,))
+    row = cursor.fetchone()
+    conn.close()
+    return {
+        "total": row["total"] or 0,
+        "avg_rating": round(row["avg_rating"], 1) if row["avg_rating"] else 0
+    }
 
 # ============ 启动 ============
 

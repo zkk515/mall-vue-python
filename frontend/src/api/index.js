@@ -50,6 +50,13 @@ export const categoryAPI = {
   products: (categoryId, keyword = '') => api.get(`/api/category/${categoryId}/products`, { params: { keyword } }),
 }
 
+// 评论相关
+export const reviewAPI = {
+  list: (productId) => api.get(`/api/product/${productId}/reviews`),
+  count: (productId) => api.get(`/api/product/${productId}/reviews/count`),
+  add: (data) => api.post(`/api/product/${data.product_id}/review`, data),
+}
+
 // 购物车相关
 export const cartAPI = {
   add: (data) => {
