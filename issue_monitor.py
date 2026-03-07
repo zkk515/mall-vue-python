@@ -270,7 +270,8 @@ def fix_bug(issue_info):
     # 提交并推送
     commit_hash = get_latest_commit_hash_git()
     run_cmd("git add -A")
-    run_cmd(f'git commit -m "fix: 修复Issue #{issue_info[\"id\"]} - {bug_desc[:50]}"')
+    commit_msg = f'fix: #{issue_info["id"]} - {bug_desc[:50]}'
+    run_cmd(f'git commit -m "{commit_msg}"')
     run_cmd("git push origin main")
     
     # 关闭Issue（先检查是否已关闭）

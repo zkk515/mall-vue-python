@@ -1,0 +1,4 @@
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 273
+    run_cmd(f'git commit -m "fix: 修复Issue #{issue_info[\"id\"]} - {bug_desc[:50]}"')
+                                                                                       ^
+SyntaxError: f-string expression part cannot include a backslash
