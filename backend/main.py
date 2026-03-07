@@ -3,6 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from pydantic import BaseModel, Field
 import re
+import html
+
+def sanitize_input(text):
+    """XSS防护：转义HTML特殊字符"""
+    if text is None:
+        return text
+    return html.escape(str(text))
 from typing import Optional, List
 import sqlite3
 import hashlib
@@ -173,9 +180,12 @@ def register(user: UserRegister):
     conn = get_db()
     cursor = conn.cursor()
     try:
+        # XSS防护
+        username = sanitize_input(user.username)
+        email = sanitize_input(user.email)
         cursor.execute(
             "INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
-            (user.username, hash_password(user.password), user.email)
+            (username, hash_password(user.password), email)
         )
         conn.commit()
         user_id = cursor.lastrowid
@@ -446,8 +456,11 @@ def update_profile(profile: UserProfile, authorization: Optional[str] = Header(N
     user_id = get_current_user(authorization)
     conn = get_db()
     cursor = conn.cursor()
+    # XSS防护
+    username = sanitize_input(profile.username)
+    email = sanitize_input(profile.email)
     cursor.execute("UPDATE users SET username = ?, email = ? WHERE id = ?", 
-                  (profile.username, profile.email, user_id))
+                  (username, email, user_id))
     conn.commit()
     conn.close()
     return {"message": "Profile updated"}
@@ -541,10 +554,11 @@ def add_review(product_id: int, review: ReviewCreate, authorization: Optional[st
         conn.close()
         raise HTTPException(status_code=403, detail="You can only review after purchasing this product")
     
-    # 添加评论
+    # 添加评论 - XSS防护
+    comment = sanitize_input(review.comment)
     cursor.execute(
         "INSERT INTO reviews (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)",
-        (product_id, user_id, review.rating, review.comment)
+        (product_id, user_id, review.rating, comment)
     )
     conn.commit()
     conn.close()
