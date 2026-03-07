@@ -491,7 +491,7 @@ def get_profile(authorization: Optional[str] = Header(None)):
     user_id = get_current_user(authorization)
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute("SELECT id, username, email FROM users WHERE id = ?", (user_id,))
+    cursor.execute("SELECT id, username, email, avatar_url FROM users WHERE id = ?", (user_id,))
     user = cursor.fetchone()
     conn.close()
     if not user:
@@ -507,8 +507,14 @@ def update_profile(profile: UserProfile, authorization: Optional[str] = Header(N
     # XSS防护
     username = sanitize_input(profile.username)
     email = sanitize_input(profile.email)
-    cursor.execute("UPDATE users SET username = ?, email = ? WHERE id = ?", 
-                  (username, email, user_id))
+    # 支持头像URL
+    avatar_url = getattr(profile, 'avatar_url', None)
+    if avatar_url:
+        cursor.execute("UPDATE users SET username = ?, email = ?, avatar_url = ? WHERE id = ?", 
+                      (username, email, avatar_url, user_id))
+    else:
+        cursor.execute("UPDATE users SET username = ?, email = ? WHERE id = ?", 
+                      (username, email, user_id))
     conn.commit()
     conn.close()
     return success_resp(msg="Profile updated")
