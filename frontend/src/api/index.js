@@ -10,7 +10,11 @@ const api = axios.create({
 
 // 请求拦截器 - 自动带上token
 api.interceptors.request.use(config => {
-  const token = localStorage.getItem('token')
+  // 优先使用 localStorage，其次使用 sessionStorage
+  let token = localStorage.getItem('token')
+  if (!token) {
+    token = sessionStorage.getItem('token')
+  }
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
@@ -27,6 +31,7 @@ api.interceptors.response.use(
     let msg = '请求失败，请稍后重试'
     if (status === 401) {
       localStorage.removeItem('token')
+      sessionStorage.removeItem('token')
       msg = '登录已过期，请重新登录'
     } else if (status === 403) {
       msg = '没有权限执行此操作'

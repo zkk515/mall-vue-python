@@ -46,8 +46,13 @@ const submit = async () => {
   loading.value = true
   try {
     const res = await userAPI.login(form.value)
-    localStorage.setItem('token', res.access_token)
-    localStorage.setItem('username', form.value.username)
+    if (remember.value) {
+      localStorage.setItem('token', res.access_token)
+      localStorage.setItem('username', form.value.username)
+    } else {
+      sessionStorage.setItem('token', res.access_token)
+      sessionStorage.setItem('username', form.value.username)
+    }
     ElMessage.success('登录成功')
     router.push('/products')
   } catch (e) {

@@ -30,7 +30,143 @@
 [2026-03-07 20:36:43] 🔍 检查Issue...
   [缓存命中] unfixed_issues
 ✅ 无待处理的Bug Issue
-thub/MainClass.py", line 479, in get_repo
+
+[2026-03-07 20:43:43] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-07 20:50:43] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-07 20:57:43] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-07 21:04:43] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-07 21:11:44] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-07 21:18:44] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-07 21:25:44] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-07 21:32:45] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-07 21:39:45] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-07 21:46:45] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-07 21:53:46] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-07 22:00:46] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-07 22:07:46] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+tJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
     headers, data = self.__requester.requestJsonAndCheck("GET", url)
                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
@@ -129,3 +265,335 @@ Traceback (most recent call last):
   File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
     raise self.createException(status, responseHeaders, data)
 github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+Traceback (most recent call last):
+  File "/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py", line 42, in <module>
+    repo = g.get_repo(REPO_NAME)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/MainClass.py", line 479, in get_repo
+    headers, data = self.__requester.requestJsonAndCheck("GET", url)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 623, in requestJsonAndCheck
+    return self.__check(
+           ^^^^^^^^^^^^^
+  File "/home/node/.local/lib/python3.11/site-packages/github/Requester.py", line 853, in __check
+    raise self.createException(status, responseHeaders, data)
+github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials", "documentation_url": "https://docs.github.com/rest", "status": "401"}
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+⚠️  警告: 未设置 GITHUB_TOKEN 环境变量
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+============================================================
+🚀 Issue监控服务已启动
+📁 仓库: zkk515/mall-vue-python
+📂 代码目录: /home/node/.openclaw/workspace/mall-vue-python
+⏰ 每7分钟检查一次
+============================================================
+📊 API限流状态: 剩余 4994/5000, 重置于 Sun Mar  8 13:06:33 2026
+
+[2026-03-08 12:08:54] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 12:15:54] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 12:22:54] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-08 12:29:55] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 12:36:55] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 12:43:55] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-08 12:50:57] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+============================================================
+🚀 Issue监控服务已启动
+📁 仓库: zkk515/mall-vue-python
+📂 代码目录: /home/node/.openclaw/workspace/mall-vue-python
+⏰ 每7分钟检查一次
+============================================================
+📊 API限流状态: 剩余 4991/5000, 重置于 Sun Mar  8 13:06:33 2026
+
+[2026-03-08 12:55:04] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 12:57:57] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 13:02:04] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-08 13:04:57] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
