@@ -266,7 +266,7 @@ def list_products(keyword: str = "", category_id: int = None, page: int = 1, pag
     return {"items": items, "total": total, "page": page, "page_size": page_size}
 
 @app.get("/api/product/search", response_model=List[Product])
-def search_products(q: str = Query(..., min_length=1, max_length=50, description="搜索关键词")):
+def search_products(q: str = Query("", min_length=0, max_length=50, description="搜索关键词")):
     """商品搜索接口 - 支持高亮"""
     conn = get_db()
     cursor = conn.cursor()

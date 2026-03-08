@@ -9,5 +9,5 @@ while true; do
     cd $CODE_DIR
     python3 -u issue_monitor.py >> issue_monitor.log 2>&1
     echo "[$(date)] 完成，等待7分钟..." >> /home/node/.openclaw/workspace/mall-vue-python/cron.log
-    sleep 1200
+    sleep 900
 done

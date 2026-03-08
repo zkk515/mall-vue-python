@@ -635,3 +635,170 @@ github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials
 [2026-03-08 13:39:58] 🔍 检查Issue...
   [缓存命中] unfixed_issues
 ✅ 无待处理的Bug Issue
+
+[2026-03-08 13:44:05] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 13:46:58] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 13:51:05] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 13:53:58] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-08 13:58:05] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:01:00] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:05:05] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:08:00] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:12:05] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:15:00] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:19:06] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:22:00] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:26:06] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:29:00] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:33:06] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:36:00] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:40:06] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:43:00] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:47:06] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:50:00] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:54:07] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 14:57:00] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:01:07] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:04:00] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:08:07] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:11:01] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:15:07] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:18:01] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+============================================================
+🚀 Issue监控服务已启动
+📁 仓库: zkk515/mall-vue-python
+📂 代码目录: /home/node/.openclaw/workspace/mall-vue-python
+⏰ 每7分钟检查一次
+============================================================
+📊 API限流状态: 剩余 4970/5000, 重置于 Sun Mar  8 15:29:00 2026
+
+[2026-03-08 15:19:50] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:22:07] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:25:01] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:26:51] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:29:07] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:32:01] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:33:51] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:36:07] 🔍 检查Issue...
+✅ 无待处理的Bug Issue
+/home/node/.openclaw/workspace/mall-vue-python/issue_monitor.py:41: DeprecationWarning: Argument login_or_token is deprecated, please use auth=github.Auth.Token(...) instead
+  g = Github(GITHUB_TOKEN)
+============================================================
+🚀 Issue监控服务已启动
+📁 仓库: zkk515/mall-vue-python
+📂 代码目录: /home/node/.openclaw/workspace/mall-vue-python
+⏰ 每7分钟检查一次
+============================================================
+📊 API限流状态: 剩余 4992/5000, 重置于 Sun Mar  8 16:29:31 2026
+
+[2026-03-08 15:38:00] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:39:01] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 15:40:51] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
