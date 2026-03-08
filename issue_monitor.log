@@ -597,3 +597,11 @@ github.GithubException.BadCredentialsException: 401 {"message": "Bad credentials
 [2026-03-08 13:04:57] 🔍 检查Issue...
   [缓存命中] unfixed_issues
 ✅ 无待处理的Bug Issue
+
+[2026-03-08 13:09:04] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
+
+[2026-03-08 13:11:57] 🔍 检查Issue...
+  [缓存命中] unfixed_issues
+✅ 无待处理的Bug Issue
