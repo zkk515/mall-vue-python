@@ -100,4 +100,11 @@ export const orderAPI = {
   cancel: (orderId) => api.post(`/api/order/${orderId}/cancel`),
 }
 
+// 收藏相关
+export const favoritesAPI = {
+  list: () => api.get('/api/favorites'),
+  add: (productId) => api.post(`/api/favorites/${productId}`),
+  remove: (productId) => api.delete(`/api/favorites/${productId}`),
+}
+
 export default api

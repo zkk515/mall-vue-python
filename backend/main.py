@@ -703,6 +703,17 @@ def remove_favorite(product_id: int, authorization: Optional[str] = Header(None)
     conn.close()
     return success_resp(msg="Removed from favorites")
 
+@app.get("/api/favorites/{product_id}/check")
+def check_favorite(product_id: int, authorization: Optional[str] = Header(None)):
+    """检查商品是否已收藏"""
+    user_id = get_current_user(authorization)
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM favorites WHERE user_id = ? AND product_id = ?", (user_id, product_id))
+    exists = cursor.fetchone() is not None
+    conn.close()
+    return {"favorited": exists}
+
 # ============ 评论接口 ============
 
 @app.post("/api/product/{product_id}/review")

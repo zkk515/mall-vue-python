@@ -44,6 +44,9 @@
         <div class="action-buttons">
           <button class="btn-buy" @click="buyNow">立即购买</button>
           <button class="btn-cart" @click="addToCart">加入购物车</button>
+          <button class="btn-favorite" :class="{ active: isFavorited }" @click="toggleFavorite">
+            {{ isFavorited ? '❤️ 已收藏' : '🤍 收藏' }}
+          </button>
         </div>
       </div>
     </div>
@@ -100,7 +103,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { productAPI, cartAPI, reviewAPI } from '../api'
+import { productAPI, cartAPI, reviewAPI, favoritesAPI } from '../api'
 import { ElMessage } from 'element-plus'
 
 const route = useRoute()
@@ -112,6 +115,37 @@ const reviews = ref([])
 const reviewCount = ref({ total: 0, avg_rating: 0 })
 const newReview = ref({ rating: 5, comment: '' })
 const isLoggedIn = computed(() => !!localStorage.getItem('token'))
+const isFavorited = ref(false)
+
+const loadFavorited = async () => {
+  try {
+    const res = await favoritesAPI.check(route.params.id)
+    isFavorited.value = res.favorited || false
+  } catch (e) {
+    // 未登录时忽略
+  }
+}
+
+const toggleFavorite = async () => {
+  if (!isLoggedIn.value) {
+    ElMessage.warning('请先登录')
+    router.push('/login')
+    return
+  }
+  try {
+    if (isFavorited.value) {
+      await favoritesAPI.remove(product.value.id)
+      isFavorited.value = false
+      ElMessage.success('已取消收藏')
+    } else {
+      await favoritesAPI.add(product.value.id)
+      isFavorited.value = true
+      ElMessage.success('收藏成功')
+    }
+  } catch (e) {
+    ElMessage.error(e.response?.data?.detail || '操作失败')
+  }
+}
 
 const loadReviews = async () => {
   try {
@@ -146,6 +180,9 @@ onMounted(async () => {
   try {
     product.value = await productAPI.detail(route.params.id)
     await loadReviews()
+    if (isLoggedIn.value) {
+      await loadFavorited()
+    }
   } finally {
     loading.value = false
   }
@@ -243,7 +280,7 @@ const buyNow = () => {
 
 .action-buttons { margin-top: var(--spacing-xl, 32px); display: flex; gap: var(--spacing-md, 16px); }
 .btn-buy { 
-  width: 160px; height: 48px; 
+  flex: 1; height: 48px; 
   background: #fff; 
   color: var(--primary, #E4393C); 
   border: 2px solid var(--primary, #E4393C);
@@ -257,7 +294,7 @@ const buyNow = () => {
 }
 
 .btn-cart { 
-  width: 160px; height: 48px; 
+  flex: 1; height: 48px; 
   background: var(--primary, #E4393C); 
   color: #fff; 
   border: none;
@@ -268,6 +305,17 @@ const buyNow = () => {
 .btn-cart:hover { 
   background: var(--primary-hover, #C93538); 
 }
+
+.btn-favorite {
+  width: 120px; height: 48px;
+  background: #fff;
+  border: 1px solid #e4e7ed;
+  font-size: 14px; cursor: pointer;
+  border-radius: var(--radius, 8px);
+  transition: all 0.3s ease;
+}
+.btn-favorite:hover { border-color: #e4393c; color: #e4393c; }
+.btn-favorite.active { background: #ffe4d6; border-color: #e4393c; color: #e4393c; }
 
 /* 评论区域样式 */
 .review-section { 

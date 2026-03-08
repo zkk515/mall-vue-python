@@ -11,6 +11,8 @@
           <span class="divider">|</span>
           <a href="#" @click="$router.push('/orders')">我的订单</a>
           <span class="divider">|</span>
+          <a href="#" @click="$router.push('/favorites')">我的收藏</a>
+          <span class="divider">|</span>
           <a href="#" @click="$router.push('/profile')">个人中心</a>
           <span class="divider">|</span>
           <a href="#" @click="$router.push('/cart')">购物车</a>
