@@ -38,7 +38,7 @@
         </div>
         <div class="col-total">¥{{ (row.product_price * row.quantity).toFixed(2) }}</div>
         <div class="col-action">
-          <a href="#" @click.prevent="updateQuantity(row, 0)">删除</a>
+          <a href="#" @click.prevent="handleDelete(row)">删除</a>
         </div>
       </div>
     </div>
@@ -53,7 +53,9 @@
     <!-- 结算栏 -->
     <div class="cart-footer" v-if="list.length">
       <div class="footer-left">
-        <a href="#" @click.prevent="clearChecked">清空已选</a>
+        <input type="checkbox" v-model="allChecked" @change="checkAll" />
+        <span>全选</span>
+        <a href="#" @click.prevent="clearChecked" v-if="checkedCount > 0">删除选中({{ checkedCount }})</a>
       </div>
       <div class="footer-right">
         <span class="total-price">总价: <b>¥{{ total.toFixed(2) }}</b></span>
@@ -77,6 +79,10 @@ const total = computed(() => {
   return list.value.filter(r => r.checked).reduce((sum, r) => sum + r.product_price * r.quantity, 0)
 })
 
+const checkedCount = computed(() => {
+  return list.value.filter(r => r.checked).length
+})
+
 const loadCart = async () => {
   const data = await cartAPI.list()
   list.value = data.map(item => ({ ...item, checked: false }))
@@ -93,6 +99,28 @@ const updateQuantity = async (row, quantity) => {
     row.quantity = quantity
     calcTotal()
   }
+}
+
+const handleDelete = async (row) => {
+  if (confirm('确定要删除这件商品吗？')) {
+    await cartAPI.update({ product_id: row.product_id, quantity: 0 })
+    await loadCart()
+    ElMessage.success('删除成功')
+  }
+}
+
+const clearChecked = async () => {
+  const checkedItems = list.value.filter(r => r.checked)
+  if (!checkedItems.length) {
+    ElMessage.warning('请先选择商品')
+    return
+  }
+  if (!confirm(`确定要删除选中的 ${checkedItems.length} 件商品吗？`)) return
+  for (const item of checkedItems) {
+    await cartAPI.update({ product_id: item.product_id, quantity: 0 })
+  }
+  await loadCart()
+  ElMessage.success('删除成功')
 }
 
 const checkAll = () => {

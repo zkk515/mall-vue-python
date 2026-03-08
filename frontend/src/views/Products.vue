@@ -47,8 +47,34 @@
           搜索"<span>{{ keyword }}</span>"，找到 {{ total }} 件商品
         </div>
         
+        <!-- 排序和筛选 -->
+        <div class="filter-bar">
+          <div class="sort-buttons">
+            <button 
+              :class="{ active: sortBy === 'default' }" 
+              @click="sortBy = 'default'; loadProducts()"
+            >默认</button>
+            <button 
+              :class="{ active: sortBy === 'price_asc' }" 
+              @click="sortBy = 'price_asc'; loadProducts()"
+            >价格 ↑</button>
+            <button 
+              :class="{ active: sortBy === 'price_desc' }" 
+              @click="sortBy = 'price_desc'; loadProducts()"
+            >价格 ↓</button>
+            <button 
+              :class="{ active: sortBy === 'sales' }" 
+              @click="sortBy = 'sales'; loadProducts()"
+            >销量</button>
+          </div>
+          <div class="view-toggle">
+            <span :class="{ active: viewMode === 'grid' }" @click="viewMode = 'grid'">▦</span>
+            <span :class="{ active: viewMode === 'list' }" @click="viewMode = 'list'">☰</span>
+          </div>
+        </div>
+        
         <!-- 商品列表 -->
-        <div class="product-list">
+        <div class="product-list" :class="{ 'list-view': viewMode === 'list' }">
           <div class="product-item" v-for="item in list" :key="item.id" @click="$router.push(`/product/${item.id}`)">
             <div class="product-img">
               <img :src="item.image_url" :alt="item.name" />
@@ -106,6 +132,8 @@ const currentSlide = ref(0)
 const currentPage = ref(1)
 const pageSize = ref(20)
 const total = ref(0)
+const sortBy = ref('default')
+const viewMode = ref('grid')
 let carouselTimer = null
 
 const banners = [
@@ -135,6 +163,12 @@ const loadCategories = async () => {
 const loadProducts = async () => {
   loading.value = true
   try {
+    const params = { 
+      keyword: keyword.value, 
+      page: currentPage.value, 
+      page_size: pageSize.value,
+      sort: sortBy.value
+    }
     if (activeCategory.value) {
       const res = await categoryAPI.products(activeCategory.value, keyword.value, currentPage.value, pageSize.value)
       list.value = res.items || res.products || res || []
@@ -143,6 +177,12 @@ const loadProducts = async () => {
       const res = await productAPI.list(keyword.value, currentPage.value, pageSize.value)
       list.value = res.items || res.products || res || []
       total.value = res.total || list.value.length
+    }
+    // 前端排序（后端不支持时使用）
+    if (sortBy.value === 'price_asc') {
+      list.value.sort((a, b) => (a.price || 0) - (b.price || 0))
+    } else if (sortBy.value === 'price_desc') {
+      list.value.sort((a, b) => (b.price || 0) - (a.price || 0))
     }
   } finally {
     loading.value = false
@@ -302,6 +342,61 @@ onUnmounted(() => {
   border-radius: var(--radius, 8px);
 }
 .search-tips span { color: var(--primary, #E4393C); font-weight: bold; }
+
+/* 排序和筛选 */
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md, 16px);
+  padding: 10px 0;
+}
+.sort-buttons {
+  display: flex;
+  gap: 5px;
+}
+.sort-buttons button {
+  padding: 6px 12px;
+  border: 1px solid #e4e7ed;
+  background: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s;
+}
+.sort-buttons button:hover { border-color: #e4393c; color: #e4393c; }
+.sort-buttons button.active { background: #e4393c; color: #fff; border-color: #e4393c; }
+
+.view-toggle {
+  display: flex;
+  gap: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.view-toggle span {
+  color: #ccc;
+  transition: color 0.3s;
+}
+.view-toggle span.active { color: #e4393c; }
+
+/* 列表视图 */
+.product-list.list-view { flex-direction: column; }
+.product-list.list-view .product-item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.product-list.list-view .product-img {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+}
+.product-list.list-view .product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .product-list { 
   display: flex; 
