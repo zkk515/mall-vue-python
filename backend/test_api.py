@@ -49,8 +49,10 @@ class TestProductAPI:
         response = client.get("/api/product/list")
         assert response.status_code == 200
         data = response.json()
-        assert isinstance(data, list)
-        assert len(data) > 0
+        assert isinstance(data, dict)
+        assert "items" in data
+        assert isinstance(data["items"], list)
+        assert len(data["items"]) > 0
     
     def test_product_detail(self):
         """测试商品详情"""
