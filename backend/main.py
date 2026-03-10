@@ -143,7 +143,6 @@ class Review(BaseModel):
     created_at: str
 
 class ReviewCreate(BaseModel):
-    product_id: int = Field(..., gt=0, description="商品ID")
     rating: int = Field(..., ge=1, le=5, description="评分1-5")
     comment: Optional[str] = Field(None, max_length=500, description="评论")
 
@@ -586,6 +585,12 @@ def get_products_by_category(category_id: int, keyword: str = "", page: int = 1,
     conn = get_db()
     cursor = conn.cursor()
     
+    # 检查分类是否存在
+    cursor.execute("SELECT id FROM categories WHERE id = ?", (category_id,))
+    if not cursor.fetchone():
+        conn.close()
+        raise HTTPException(status_code=404, detail="Category not found")
+    
     # 查询总数
     count_sql = "SELECT COUNT(*) FROM products WHERE category_id = ?"
     count_params = [category_id]
@@ -726,6 +731,9 @@ def check_favorite(product_id: int, authorization: Optional[str] = Header(None))
 @app.post("/api/product/{product_id}/review")
 def add_review(product_id: int, review: ReviewCreate, authorization: Optional[str] = Header(None)):
     """添加评论（需已购买）"""
+    # 未登录返回401
+    if not authorization:
+        raise HTTPException(status_code=401, detail="Not authenticated")
     user_id = get_current_user(authorization)
     conn = get_db()
     cursor = conn.cursor()
