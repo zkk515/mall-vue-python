@@ -100,7 +100,7 @@ class Product(BaseModel):
 
 class CartItem(BaseModel):
     product_id: int = Field(..., gt=0, description="商品ID")
-    quantity: int = Field(..., ge=0, le=999, description="数量(0表示删除)")
+    quantity: int = Field(..., ge=0, description="数量")
 
 class CartItemResponse(BaseModel):
     id: int
@@ -327,6 +327,13 @@ def get_product(product_id: int, authorization: Optional[str] = Header(None)):
 @app.post("/api/cart/add")
 def add_to_cart(item: CartItem, authorization: Optional[str] = Header(None)):
     user_id = get_current_user(authorization)
+    
+    # 校验数量
+    if item.quantity <= 0:
+        raise HTTPException(status_code=400, detail="Quantity must be greater than 0")
+    if item.quantity > 9999:
+        raise HTTPException(status_code=400, detail="Quantity too large")
+    
     conn = get_db()
     cursor = conn.cursor()
     
